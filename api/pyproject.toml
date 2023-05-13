@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "ft-api"
+version = "0.1.0"
+description = "API for the flight tracker app"
+authors = ["Isaac Denny <isaacquinndenny@gmail.com>"]
+readme = "README.md"
+packages = [{include = "ft_api"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.95.1"
+uvicorn = "^0.22.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
