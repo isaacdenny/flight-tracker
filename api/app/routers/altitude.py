@@ -15,4 +15,4 @@ def set_altitude(new_altitude: int, res: Response):
         return { "message": "Altitude cannot be lower than 0ft" }
     global altitude;
     altitude = new_altitude
-    return { "message": f"Altitude updated to : {altitude}" }
+    return { "message": f"Altitude updated to: {altitude}" }
