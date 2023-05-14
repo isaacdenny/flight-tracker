@@ -4,7 +4,7 @@ import requests
 get = False
 post = True
 
-server_ip = "192.168.0.20"
+server_ip = "192.168.0.10"
 server_port = 8000
 server_prefix = f"http://{server_ip}:{server_port}/"
 
