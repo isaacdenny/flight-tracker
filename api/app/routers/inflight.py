@@ -37,22 +37,24 @@ in_flight_data = None
 
 @router.get("/")
 def get_flight_data():
-    return in_flight_data.to_json()
+    return { 'message': 'No flights currently active' } if not in_flight_data else in_flight_data.to_json()
 
-@router.post("/{id}/{command}")
-async def toggle_flight(id: int, command: str, res: Response):
+@router.get("/start")
+def start_flight():
     global in_flight_data
-    if command == 'start':
-        in_flight_data = FlightData()
-        return { 'message': f'New flight started, id: {in_flight_data.get_id()}'}
-    elif command == 'end':
-        if in_flight_data is None:
-            res.status_code = status.HTTP_400_BAD_REQUEST
-            return { 'error': 'No flights currently active' }
-        elif in_flight_data.get_id() != id or not in_flight_data.get_in_flight():
-            res.status_code = status.HTTP_400_BAD_REQUEST
-            return { 'error': 'Flight {id} not currently active' }
-        else:
-            in_flight_data.set_in_flight(False)
-            print(in_flight_data.to_json())
-            return { 'message': f'Flight ended, id: {in_flight_data.get_id()}'}
+    in_flight_data = FlightData()
+    return { 'message': f'New flight started, id: {in_flight_data.get_id()}'}
+
+@router.get("/{id}")
+async def end_flight(id: int, res: Response):
+    global in_flight_data
+    if in_flight_data is None:
+        res.status_code = status.HTTP_400_BAD_REQUEST
+        return { 'error': 'No flights currently active' }
+    elif in_flight_data.get_id() != id or not in_flight_data.get_in_flight():
+        res.status_code = status.HTTP_400_BAD_REQUEST
+        return { 'error': 'Flight {id} not currently active' }
+    else:
+        in_flight_data.set_in_flight(False)
+        print(in_flight_data.to_json())
+        return { 'message': f'Flight ended, id: {in_flight_data.get_id()}'}
