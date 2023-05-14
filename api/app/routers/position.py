@@ -1,24 +1,25 @@
-from fastapi import APIRouter, Response, status
-from pydantic import BaseModel
+from fastapi import APIRouter
 
 router = APIRouter(prefix="/position", tags=["position"])
 
-class Position(BaseModel):
+class Position():
     lat: float
     lon: float
     alt: float
 
-position = 0
+    def __init__(self, lat, lon, alt):
+        self.lat = lat
+        self.lon = lon
+        self.alt = alt
+
+position = Position(0, 0, 0)
 
 @router.get("/")
 def get_position():
-    return position
+    return position.dict()
 
 @router.post("/")
-def set_position(new_position: dict, res: Response):
-    if (new_position < 0):
-        res.status_code = status.HTTP_400_BAD_REQUEST
-        return { "message": "Position cannot be lower than 0ft" }
+def set_position(lat: int, lon: int, alt: int):
     global position
-    position = new_position
+    position = Position(lat, lon, alt)
     return { "message": f"Position updated to: {position}" }

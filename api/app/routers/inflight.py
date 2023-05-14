@@ -1,10 +1,9 @@
 from fastapi import APIRouter
-from pydantic import BaseModel
 import time
 
 router = APIRouter(prefix="/inflight", tags=["inflight"])
 
-class FlightData(BaseModel):
+class FlightData():
     uuid: int | 40426
     in_flight = bool | True
     start_time = float | time.time()
@@ -29,7 +28,6 @@ in_flight_data = FlightData()
 @router.get("/")
 def get_flight_data():
     return in_flight_data.dict()
-    
 
 @router.post("/{id}/{command}")
 async def toggle_flight(id: int, command: str):
