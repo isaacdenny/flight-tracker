@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "orangepi"
+version = "0.1.0"
+description = ""
+authors = ["Isaac Denny <isaacquinndenny@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+gps = "^3.19"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
