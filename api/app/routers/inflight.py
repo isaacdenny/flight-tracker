@@ -44,9 +44,9 @@ async def toggle_flight(id: int, command: str):
     global in_flight_data
     if command == 'start':
         in_flight_data = FlightData()
-        return { 'message': 'New flight started, id: ' + in_flight_data.get_id()}
+        return { 'message': 'New flight started, id: ' + str(in_flight_data.get_id())}
     elif command == 'end':
         if in_flight_data.get_in_flight() and in_flight_data.get_id() == id:
             in_flight_data.set_in_flight(False)
             print(in_flight_data.to_json())
-            return { 'message': 'Flight ended, id: ' + in_flight_data.get_id()}
+            return { 'message': 'Flight ended, id: ' + str(in_flight_data.get_id())}
