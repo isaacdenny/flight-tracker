@@ -22,25 +22,28 @@ position_data = {
     "alt":2.520
 }
 
-def request(prefix, endpoint, data):
-    response = requests.post(prefix + endpoint, json=data)
+def request(endpoint, data=None):
+    if data:
+      response = requests.post(endpoint, json=data)
+    else:
+      response = requests.get(endpoint)
     response_json = response.json()
     return response_json
 
 while get:
-    # The API endpoint
-    url = f"https://{server_ip}:{server_port}"
+    v_res = request(server_prefix + velocity_endpoint)
+    p_res = request(server_prefix + position_endpoint)
 
-    # A GET request to the API
-    response = requests.get(url)
+    print("Get Velocity: ", v_res)
+    print("Get Position: ", p_res)
 
-    # Print the response
-    response_json = response.json()
-    print(response_json)
+    time.sleep(1)
 
 while post:
-    v_post_res = request(server_prefix, velocity_endpoint, velocity_data)
-    p_post_res = request(server_prefix, position_endpoint, position_data)
-    
-    print("Velocity response: ", v_post_res)
-    print("Position response: ", p_post_res)
+    v_post_res = request(server_prefix + velocity_endpoint, velocity_data)
+    p_post_res = request(server_prefix + position_endpoint, position_data)
+
+    print("Post Velocity: ", v_post_res)
+    print("Post Position: ", p_post_res)
+
+    time.sleep(1)
