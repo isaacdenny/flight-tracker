@@ -12,11 +12,14 @@ class Position():
         self.lon = lon
         self.alt = alt
 
+    def to_json(self):
+        return { 'lat': self.lat, 'lon': self.lon, 'alt': self.alt}
+
 position = Position(0, 0, 0)
 
 @router.get("/")
 def get_position():
-    return position.dict()
+    return position.to_json()
 
 @router.post("/")
 def set_position(lat: int, lon: int, alt: int):

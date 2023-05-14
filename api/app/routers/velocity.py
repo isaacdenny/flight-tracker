@@ -11,25 +11,18 @@ class Velocity():
         self.x = x
         self.y = y
         self.z = z
-
-    def get_x(self):
-        return self.x
     
-    def get_y(self):
-        return self.y
-    
-    def get_z(self):
-        return self.z
+    def to_json(self):
+        return { 'x': self.x, 'y': self.y, 'z': self.z }
 
 velocity = Velocity(0, 0, 0)
 
 @router.get("/")
 def get_velocity():
-    return velocity
+    return velocity.to_json()
 
 @router.post("/")
 def set_velocity(x: int, y: int, z: int):
     global velocity
-    new_velocity = Velocity(x, y, z)
-    velocity = new_velocity
+    velocity = Velocity(x, y, z)
     return { "message": "Velocity successfully updated"}
