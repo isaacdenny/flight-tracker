@@ -10,7 +10,7 @@ ENV YOUR_ENV=${YOUR_ENV} \
   PIP_NO_CACHE_DIR=off \
   PIP_DISABLE_PIP_VERSION_CHECK=on \
   PIP_DEFAULT_TIMEOUT=100 \
-  POETRY_VERSION=1.3.2
+  POETRY_VERSION=1.4.2
 
 # System deps:
 RUN pip install "poetry==$POETRY_VERSION"
@@ -30,4 +30,4 @@ COPY . /code
 COPY ./app /code/app
 
 #
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8080"]
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
