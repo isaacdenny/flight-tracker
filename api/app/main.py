@@ -1,8 +1,8 @@
 from fastapi import FastAPI
-from app.routers import altitude, velocity
+from app.routers import position, velocity
 
 app = FastAPI()
-app.include_router(altitude.router)
+app.include_router(position.router)
 app.include_router(velocity.router)
 
 @app.get("/")
