@@ -39,14 +39,12 @@ try:
     while is_online: # or is connected to internet
         try:
             res = request(server_prefix + in_flight_ep)
-            print(res)
-            in_flight = res['in_flight']
-            flight_time = res['flight_time']
-
-            if not in_flight:
+            if not hasattr(res, 'in_flight'):
                 print("Flight status: Inactive")
                 time.sleep(1 / poll_rate)
             else:
+                in_flight = res['in_flight']
+                flight_time = res['flight_time']
                 print("Flight status: Active")
                 print("Flight time: ", flight_time)
 
