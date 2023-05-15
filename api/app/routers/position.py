@@ -22,7 +22,7 @@ def get_position():
     return position.to_json()
 
 @router.post("/")
-def set_position(lat: float, lon: float, alt: float):
+def set_position(new_position: dict):
     global position
-    position = Position(lat, lon, alt)
-    return { "message": f"Position updated to: {position}" }
+    position = Position(**new_position)
+    return { "message": f"Position successfully updated" }

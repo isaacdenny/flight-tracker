@@ -22,14 +22,14 @@ velocity_data = {
     "z": 23.670,
 }
 position_data = {
-    "lat": 1.600,
-    "lon": 1.200,
-    "alt": 2.520
+    'lat': 1.600,
+    'lon': 1.200,
+    'alt': 2.520
 }
 
 def request(endpoint, data=None):
     if data:
-        response = requests.post(endpoint, data=data)
+        response = requests.post(endpoint, json=data)
     else:
         response = requests.get(endpoint)
     response_json = response.json()
