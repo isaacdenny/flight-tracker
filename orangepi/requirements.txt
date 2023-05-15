@@ -1,2 +1,3 @@
 # requirements for the orangepi flight-tracker application
 requests
+python-dotenv

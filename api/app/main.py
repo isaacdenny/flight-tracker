@@ -1,15 +1,18 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routers import position, velocity, inflight
+from app.routers import position, velocity, inflight, register
 
 app = FastAPI()
 app.include_router(position.router)
 app.include_router(velocity.router)
 app.include_router(inflight.router)
+app.include_router(register.router)
 
 origins = [
-    "http://192.168.0.20"
+    "http://localhost:3000"
 ]
+
+field_ips = [device.ip_address for device in register.field_devices]
 
 app.add_middleware(
     CORSMiddleware,
@@ -17,6 +20,14 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=field_ips,
+    allow_credentials=True,
+    allow_methods=["POST"],
+    allow_headers=["*"]
 )
 
 @app.get("/")

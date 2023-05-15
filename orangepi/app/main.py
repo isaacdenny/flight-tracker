@@ -1,14 +1,18 @@
 import time
 import requests
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 poll_rate = 0.3 # polls per second
 in_flight_poll_rate = 5 # polls per second
 
 in_flight = False
 
-server_ip = "192.168.0.10"
-server_port = 8000
-server_prefix = f"http://{server_ip}:{server_port}/"
+server_host = os.getenv('SERVER_HOST')
+server_port = os.getenv('SERVER_PORT')
+server_url = f"http://{server_host}:{server_port}/"
 
 is_online = True
 
@@ -37,7 +41,7 @@ def request(endpoint, data=None):
 
 while is_online: # or is connected to internet
     try:
-        res = request(server_prefix + in_flight_ep)
+        res = request(server_url + in_flight_ep)
         in_flight = res['in_flight']
         
         if not in_flight:
@@ -47,11 +51,11 @@ while is_online: # or is connected to internet
             total_flight_time = res['total_time']
             print("Flight status: Active")
             print("Flight time: ", total_flight_time)
-            v_post_res = request(server_prefix + velocity_ep, velocity_data)
-            p_post_res = request(server_prefix + position_ep, position_data)
+            v_post_res = request(server_url + velocity_ep, velocity_data)
+            p_post_res = request(server_url + position_ep, position_data)
             print("Updated Velocity: ", v_post_res)
             print("Updated Position: ", p_post_res)
             time.sleep(1 / in_flight_poll_rate)
     except Exception as e:
-        print(f"Error requesting {server_ip}: {e}")
+        print(f"Error requesting {server_host}: {e}")
         time.sleep(2)
