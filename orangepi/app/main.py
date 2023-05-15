@@ -29,7 +29,7 @@ position_data = {
 
 def request(endpoint, data=None):
     if data:
-        response = requests.post(endpoint, json=data)
+        response = requests.post(endpoint, data=data)
     else:
         response = requests.get(endpoint)
     response_json = response.json()
