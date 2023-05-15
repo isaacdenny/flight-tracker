@@ -12,7 +12,7 @@ origins = [
     "http://localhost:3000"
 ]
 
-field_ips = [device.ip_address for device in register.field_devices]
+field_ips = [device.get_ip() for device in register.field_devices]
 
 app.add_middleware(
     CORSMiddleware,

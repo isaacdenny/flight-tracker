@@ -25,7 +25,7 @@ class FieldDevice:
             "device_name": self.device_name,
         }
     
-field_devices = [FieldDevice]
+field_devices = []
 
 @router.get('/{sn}')
 def get_device_info(sn: str, res: Response):

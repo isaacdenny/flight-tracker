@@ -32,21 +32,14 @@ position_data = {
     'alt': 2.520
 }
 
-def request(endpoint, data=None, timeout=None):
-    if data:
-        response = requests.post(endpoint, json=data, timeout=timeout)
-    else:
-        response = requests.get(endpoint, timeout=timeout)
-    response_json = response.json()
-    return response_json
 
 def check_online():
     try:
-        request('https://8.8.8.8', timeout=1)
+        requests.get('https://dns.google.com/')
         print("Status: Tether Online")
         return True
     except Exception as e: 
-        print("Status: Tether Offline")
+        print(e)
         return False
 
 # REGISTER DEVICE
@@ -54,7 +47,7 @@ if not check_online():
     sys.exit()
 
 try:
-    register_res = request(server_url + register_ep + serial_number)
+    register_res = requests.get(server_url + register_ep + serial_number).json()
     if 'token' in register_res:
         token = register_res['token']
         is_registered = True
@@ -65,7 +58,7 @@ except Exception as e:
 # POLL API
 while True:
     try:
-        res = request(server_url + in_flight_ep)
+        res = requests.get(server_url + in_flight_ep).json()
         in_flight = res['in_flight']
         
         if not in_flight:
@@ -75,8 +68,8 @@ while True:
             total_flight_time = res['total_time']
             print("Flight status: Active")
             print("Flight time: ", total_flight_time)
-            v_post_res = request(server_url + velocity_ep, velocity_data)
-            p_post_res = request(server_url + position_ep, position_data)
+            v_post_res = requests.post(server_url + velocity_ep, json=velocity_data).json()
+            p_post_res = requests.post(server_url + position_ep, json=position_data).json()
             print("Updated Velocity: ", v_post_res)
             print("Updated Position: ", p_post_res)
             time.sleep(1 / in_flight_poll_rate)
