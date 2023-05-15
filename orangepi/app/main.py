@@ -40,6 +40,7 @@ try:
         try:
             res = request(server_prefix + in_flight_ep)
             print(res)
+            print(hasattr(res, "in_flight"))
             if not hasattr(res, "in_flight"):
                 print("Flight status: Inactive")
                 time.sleep(1 / poll_rate)
