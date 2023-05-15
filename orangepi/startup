@@ -3,10 +3,16 @@
 if [ -d ".venv/bin/" ] 
 then  
     source .venv/bin/activate
-    echo "SERVER_HOST=192.168.0.20" >> .env
+
+    # FIXME: make sure bluetooth tether connected
+
+    # Initialize ENV
+    echo "SERVER_HOST=192.168.0.10" >> .env
     echo "SERVER_PORT=8000" >> .env
     echo "SERIAL_NUMBER=$SERIAL_NUMBER" >> .env
     echo "PUBLIC_IP=$(curl ifconfig.me)" >> .env
+
+    # Start program
     .venv/bin/python app/main.py
 else
     echo "Error: Startup failed because '.venv/bin/python' does not exists."

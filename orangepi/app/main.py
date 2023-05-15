@@ -8,17 +8,19 @@ load_dotenv()
 poll_rate = 0.3 # polls per second
 in_flight_poll_rate = 5 # polls per second
 
-in_flight = False
-
+serial_number = os.getenv('SERIAL_NUMBER')
 server_host = os.getenv('SERVER_HOST')
 server_port = os.getenv('SERVER_PORT')
 server_url = f"http://{server_host}:{server_port}/"
 
-is_online = True
-
 velocity_ep = "velocity/"
 position_ep = "position/"
 in_flight_ep = "inflight/"
+register_ep = "register/"
+
+is_registered = False
+is_online = True
+in_flight = False
 
 velocity_data = {
     'x': 600.400,
@@ -39,7 +41,19 @@ def request(endpoint, data=None):
     response_json = response.json()
     return response_json
 
-while is_online: # or is connected to internet
+
+# REGISTER DEVICE
+try:
+    register_res = request(server_url + register_ep + serial_number)
+    if 'token' in register_res:
+        token = register_res['token']
+        is_registered = True
+except Exception as e:
+    print(f"Error registering {serial_number}: {e}")
+
+
+# POLL API
+while is_online: # FIXME: needs to check device online status
     try:
         res = request(server_url + in_flight_ep)
         in_flight = res['in_flight']
