@@ -55,8 +55,8 @@ try:
                 print("Updated Velocity: ", v_post_res)
                 print("Updated Position: ", p_post_res)
                 time.sleep(1 / in_flight_poll_rate)
-        except:
-            print("Error requesting ip: " + server_ip)
+        except Exception as e:
+            print(f"Error requesting {server_ip}: {e}")
             time.sleep(2)
 except KeyboardInterrupt:
         print("\nPolling ended: KeyboardInterrupt")
