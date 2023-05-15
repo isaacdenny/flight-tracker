@@ -22,7 +22,7 @@ def get_velocity():
     return velocity.to_json()
 
 @router.post("/")
-def set_velocity(x: int, y: int, z: int):
+def set_velocity(x: float, y: float, z: float):
     global velocity
     velocity = Velocity(x, y, z)
     return { "message": "Velocity successfully updated"}

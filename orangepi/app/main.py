@@ -22,9 +22,9 @@ velocity_data = {
     "z": 23.670,
 }
 position_data = {
-    "lat":1.600,
-    "lon":1.200,
-    "alt":2.520
+    "lat": 1.600,
+    "lon": 1.200,
+    "alt": 2.520
 }
 
 def request(endpoint, data=None):
