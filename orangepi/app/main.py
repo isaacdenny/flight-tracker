@@ -39,6 +39,7 @@ try:
     while is_online: # or is connected to internet
         try:
             res = request(server_prefix + in_flight_ep)
+            print(res)
             in_flight = res['in_flight']
             flight_time = res['flight_time']
 
