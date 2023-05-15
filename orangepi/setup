@@ -2,7 +2,7 @@
 
 echo 'Creating virtual-env...'
 apt-get install python3 python3-venv
-python3.11 -m venv .venv 
+/usr/bin/python3 -m venv .venv 
 source .venv/bin/activate
 
 echo 'Installing dependencies...'
