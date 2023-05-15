@@ -1,6 +1,5 @@
-import time
 import requests
-import os
+import os, sys, time
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -33,16 +32,27 @@ position_data = {
     'alt': 2.520
 }
 
-def request(endpoint, data=None):
+def request(endpoint, data=None, timeout=None):
     if data:
-        response = requests.post(endpoint, json=data)
+        response = requests.post(endpoint, json=data, timeout=timeout)
     else:
-        response = requests.get(endpoint)
+        response = requests.get(endpoint, timeout=timeout)
     response_json = response.json()
     return response_json
 
+def check_online():
+    try:
+        request('https://8.8.8.8', timeout=1)
+        print("Status: Tether Online")
+        return True
+    except Exception as e: 
+        print("Status: Tether Offline")
+        return False
 
 # REGISTER DEVICE
+if not check_online():
+    sys.exit()
+
 try:
     register_res = request(server_url + register_ep + serial_number)
     if 'token' in register_res:
@@ -53,7 +63,7 @@ except Exception as e:
 
 
 # POLL API
-while is_online: # FIXME: needs to check device online status
+while True:
     try:
         res = request(server_url + in_flight_ep)
         in_flight = res['in_flight']
