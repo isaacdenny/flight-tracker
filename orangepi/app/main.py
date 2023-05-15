@@ -35,29 +35,23 @@ def request(endpoint, data=None):
     response_json = response.json()
     return response_json
 
-try:
-    while is_online: # or is connected to internet
-        try:
-            res = request(server_prefix + in_flight_ep)
-            print(res)
-            print(hasattr(res, "in_flight"))
-            if not hasattr(res, "in_flight"):
-                print("Flight status: Inactive")
-                time.sleep(1 / poll_rate)
-            else:
-                in_flight = res['in_flight']
-                flight_time = res['flight_time']
-                print("Flight status: Active")
-                print("Flight time: ", flight_time)
-
-                v_post_res = request(server_prefix + velocity_ep, velocity_data)
-                p_post_res = request(server_prefix + position_ep, position_data)
-
-                print("Updated Velocity: ", v_post_res)
-                print("Updated Position: ", p_post_res)
-                time.sleep(1 / in_flight_poll_rate)
-        except Exception as e:
-            print(f"Error requesting {server_ip}: {e}")
-            time.sleep(2)
-except KeyboardInterrupt:
-        print("\nPolling ended: KeyboardInterrupt")
+while is_online: # or is connected to internet
+    try:
+        res = request(server_prefix + in_flight_ep)
+        in_flight = res['in_flight']
+        
+        if not in_flight:
+            print("Flight status: Inactive")
+            time.sleep(1 / poll_rate)
+        else:
+            flight_time = res['flight_time']
+            print("Flight status: Active")
+            print("Flight time: ", flight_time)
+            v_post_res = request(server_prefix + velocity_ep, velocity_data)
+            p_post_res = request(server_prefix + position_ep, position_data)
+            print("Updated Velocity: ", v_post_res)
+            print("Updated Position: ", p_post_res)
+            time.sleep(1 / in_flight_poll_rate)
+    except Exception as e:
+        print(f"Error requesting {server_ip}: {e}")
+        time.sleep(2)

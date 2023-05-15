@@ -37,7 +37,7 @@ in_flight_data = None
 
 @router.get("/")
 def get_flight_data():
-    return { 'message': 'No flights currently active' } if not in_flight_data else in_flight_data.to_json()
+    return { 'in_flight': False } if not in_flight_data else in_flight_data.to_json()
 
 @router.get("/start")
 def start_flight():
