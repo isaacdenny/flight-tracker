@@ -17,9 +17,9 @@ position_ep = "position/"
 in_flight_ep = "inflight/"
 
 velocity_data = {
-    "x": 600.400,
-    "y": 43.600,
-    "z": 23.670,
+    'x': 600.400,
+    'y': 43.600,
+    'z': 23.670,
 }
 position_data = {
     'lat': 1.600,
