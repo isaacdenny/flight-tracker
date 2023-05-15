@@ -44,9 +44,9 @@ while is_online: # or is connected to internet
             print("Flight status: Inactive")
             time.sleep(1 / poll_rate)
         else:
-            flight_time = res['flight_time']
+            total_flight_time = res['total_time']
             print("Flight status: Active")
-            print("Flight time: ", flight_time)
+            print("Flight time: ", total_flight_time)
             v_post_res = request(server_prefix + velocity_ep, velocity_data)
             p_post_res = request(server_prefix + position_ep, position_data)
             print("Updated Velocity: ", v_post_res)
