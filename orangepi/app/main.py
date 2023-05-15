@@ -54,6 +54,8 @@ while is_online: # or is connected to internet
             print("Updated Velocity: ", v_post_res)
             print("Updated Position: ", p_post_res)
             time.sleep(1 / in_flight_poll_rate)
+    except KeyboardInterrupt:
+        print("Polling ended: KeyboardInterrupt")
     except:
         print("Error requesting ip: " + server_ip)
         time.sleep(2)
