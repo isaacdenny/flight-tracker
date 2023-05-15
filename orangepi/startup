@@ -1,3 +1,11 @@
 #! /bin/bash
 
-.venv/bin/python app/main.py
+if [ -d ".venv/bin/" ] 
+then  
+    source .venv/bin/activate
+    .venv/bin/python app/main.py
+else
+    echo "Error: Startup failed because '.venv/bin/python' does not exists."
+    echo "Error: Try running './setup' first or ensure venv is activated with 'source .venv/bin/activate"
+fi
+
