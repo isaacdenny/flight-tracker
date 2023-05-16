@@ -1,4 +1,5 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
+from app.features.security import verify_token
 
 router = APIRouter(prefix="/position", tags=["position"])
 
@@ -22,7 +23,7 @@ def get_position():
     return position.to_json()
 
 @router.post("/")
-def set_position(new_position: dict):
+def set_position(new_position: dict, dependencies=[Depends(verify_token)]):
     global position
     position = Position(**new_position)
     return { "message": f"Position successfully updated" }

@@ -1,4 +1,5 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
+from app.features.security import verify_token
 
 router = APIRouter(prefix="/velocity", tags=["velocity"])
 
@@ -21,7 +22,7 @@ velocity = Velocity(0, 0, 0)
 def get_velocity():
     return velocity.to_json()
 
-@router.post("/")
+@router.post("/", dependencies=[Depends(verify_token)])
 def set_velocity(new_velocity: dict):
     global velocity
     velocity = Velocity(**new_velocity)
