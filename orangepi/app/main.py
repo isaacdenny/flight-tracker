@@ -54,7 +54,7 @@ if not check_online():
 
 try:
     register_res = requests.post(
-        server_url + register_ep + serial_number, json=device_info
+        server_url + register_ep, json=device_info
     ).json()
     if 'token' not in register_res:
         raise Exception('No token')
