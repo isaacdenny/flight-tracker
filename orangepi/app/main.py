@@ -16,9 +16,9 @@ server_port = os.getenv("SERVER_PORT")
 server_url = f"http://{server_host}:{server_port}/"
 
 device_info = {
-    "serial_number": serial_number,
-    "ip_address": public_ip,
-    "device_name": device_name,
+    'serial_number': serial_number,
+    'ip_address': public_ip,
+    'device_name': device_name,
 }
 
 velocity_ep = "velocity/"
