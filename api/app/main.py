@@ -10,6 +10,7 @@ app.include_router(register.router)
 
 origins = [
     "http://localhost:3000"
+    "http://localhost:8000/docs"
 ]
 
 field_ips = [device.get_ip() for device in register.field_devices]

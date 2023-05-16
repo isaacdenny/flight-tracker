@@ -22,8 +22,8 @@ position = Position(0, 0, 0)
 def get_position():
     return position.to_json()
 
-@router.post("/")
-def set_position(new_position: dict, dependencies=[Depends(verify_token)]):
+@router.post("/", dependencies=[Depends(verify_token)])
+def set_position(new_position: dict):
     global position
     position = Position(**new_position)
     return { "message": f"Position successfully updated" }
