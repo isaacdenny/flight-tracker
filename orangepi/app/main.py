@@ -66,7 +66,7 @@ except Exception as e:
 # POLL API
 while True:
     try:
-        res = requests.get(server_url + in_flight_ep).json()
+        res = requests.get(server_url + in_flight_ep, headers={"x_token": token}).json()
         in_flight = res["in_flight"]
 
         if not in_flight:
@@ -77,10 +77,10 @@ while True:
             print("Flight status: Active")
             print("Flight time: ", total_flight_time)
             v_post_res = requests.post(
-                server_url + velocity_ep, json=velocity_data
+                server_url + velocity_ep, json=velocity_data, headers={"x_token": token}
             ).json()
             p_post_res = requests.post(
-                server_url + position_ep, json=position_data
+                server_url + position_ep, json=position_data, headers={"x_token": token}
             ).json()
             print("Updated Velocity: ", v_post_res)
             print("Updated Position: ", p_post_res)
