@@ -8,19 +8,19 @@ known_serials = {
 }
 
 class FieldDevice():
-    serial_number: str
-    ip_address: str
-    device_name: str
-
-    def __init__(self, sn, ip):
-        self.serial_number = sn
-        self.ip_address = ip
+    def __init__(self, serial_number: str, ip_address: str, device_name: str ):
+        self.serial_number = serial_number
+        self.ip_address = ip_address
+        self.device_name = device_name
 
     def get_sn(self):
         return self.serial_number
 
     def get_ip(self):
         return self.ip_address
+    
+    def get_device_name(self):
+        return self.device_name
 
     def to_json(self):
         return {
