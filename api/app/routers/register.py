@@ -1,5 +1,4 @@
 from fastapi import APIRouter, Response, status
-import random
 
 router = APIRouter(prefix="/register", tags=["register"])
 
@@ -34,7 +33,7 @@ field_devices = []
 @router.get('/{sn}')
 def get_device_info(sn: str, res: Response):
     for device in field_devices:
-        if sn in device:
+        if sn == device.get_sn():
             return device.to_json()
     res.status_code = status.HTTP_400_BAD_REQUEST
     return { 'error': f'Device with sn: {sn} not found' }
@@ -43,7 +42,9 @@ def get_device_info(sn: str, res: Response):
 def register_device(new_device: dict):
     try:
         device = FieldDevice(**new_device)
+        if device.get_sn() not in known_serials:
+            raise Exception
         field_devices.add(device)
-        return { 'token': random.randint(1000, 9999) }
+        return { 'token': 'fake-super-secret-token' }
     except:
         return { 'error': 'Error registering device: ensure sn, ip, and name is correct' }
