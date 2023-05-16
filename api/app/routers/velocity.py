@@ -1,14 +1,11 @@
 from fastapi import APIRouter, Depends
+from typing import Annotated
 from app.features.security import verify_token
 
 router = APIRouter(prefix="/velocity", tags=["velocity"])
 
 class Velocity():
-    x: int
-    y: int
-    z: int
-
-    def __init__(self, x, y, z):
+    def __init__(self, x: int, y: int, z: int):
         self.x = x
         self.y = y
         self.z = z
@@ -23,7 +20,7 @@ def get_velocity():
     return velocity.to_json()
 
 @router.post("/", dependencies=[Depends(verify_token)])
-def set_velocity(new_velocity: dict):
+def set_velocity(new_velocity: Annotated[Velocity, Depends(Velocity)]):
     global velocity
-    velocity = Velocity(**new_velocity)
+    velocity = new_velocity
     return { "message": "Velocity successfully updated"}

@@ -79,10 +79,10 @@ while True:
             print("Flight status: Active")
             print("Flight time: ", total_flight_time)
             v_post_res = requests.post(
-                server_url + velocity_ep, json=velocity_data, headers={"x_token": token}
+                server_url + velocity_ep, params=velocity_data, headers={"x_token": token}
             ).json()
             p_post_res = requests.post(
-                server_url + position_ep, json=position_data, headers={"x_token": token}
+                server_url + position_ep, params=position_data, headers={"x_token": token}
             ).json()
             print("Updated Velocity: ", v_post_res)
             print("Updated Position: ", p_post_res)

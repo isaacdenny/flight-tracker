@@ -1,14 +1,11 @@
 from fastapi import APIRouter, Depends
+from typing import Annotated
 from app.features.security import verify_token
 
 router = APIRouter(prefix="/position", tags=["position"])
 
 class Position():
-    lat: float
-    lon: float
-    alt: float
-
-    def __init__(self, lat, lon, alt):
+    def __init__(self, lat: float, lon: float, alt: float):
         self.lat = lat
         self.lon = lon
         self.alt = alt
@@ -23,7 +20,7 @@ def get_position():
     return position.to_json()
 
 @router.post("/", dependencies=[Depends(verify_token)])
-def set_position(new_position: dict):
+def set_position(new_position: Annotated[Position, Depends(Position)]):
     global position
-    position = Position(**new_position)
+    position = new_position
     return { "message": f"Position successfully updated" }
