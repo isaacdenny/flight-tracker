@@ -1,7 +1,11 @@
 from fastapi import APIRouter, Response, status
+import random
 
 router = APIRouter(prefix="/register", tags=["register"])
 
+known_serials = {
+    '21AH250C99EV34'
+}
 
 class FieldDevice:
     serial_number: str
@@ -40,5 +44,6 @@ def register_device(new_device: dict):
     try:
         device = FieldDevice(**new_device)
         field_devices.add(device)
+        return { 'token': random.randint(1000, 9999) }
     except:
         return { 'error': 'Error registering device: ensure sn, ip, and name is correct' }

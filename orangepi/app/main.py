@@ -4,13 +4,22 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-poll_rate = 0.3 # polls per second
-in_flight_poll_rate = 5 # polls per second
+poll_rate = 0.3  # polls per second
+in_flight_poll_rate = 5  # polls per second
 
-serial_number = os.getenv('SERIAL_NUMBER')
-server_host = os.getenv('SERVER_HOST')
-server_port = os.getenv('SERVER_PORT')
+serial_number = os.getenv("SERIAL_NUMBER")
+public_ip = os.getenv("PUBLIC_IP")
+device_name = os.getenv("DEVICE_NAME")
+
+server_host = os.getenv("SERVER_HOST")
+server_port = os.getenv("SERVER_PORT")
 server_url = f"http://{server_host}:{server_port}/"
+
+device_info = {
+    "serial_number": serial_number,
+    "ip_address": public_ip,
+    "device_name": device_name,
+}
 
 velocity_ep = "velocity/"
 position_ep = "position/"
@@ -22,34 +31,33 @@ is_online = True
 in_flight = False
 
 velocity_data = {
-    'x': 600.400,
-    'y': 43.600,
-    'z': 23.670,
+    "x": 600.400,
+    "y": 43.600,
+    "z": 23.670,
 }
-position_data = {
-    'lat': 1.600,
-    'lon': 1.200,
-    'alt': 2.520
-}
+position_data = {"lat": 1.600, "lon": 1.200, "alt": 2.520}
 
 
 def check_online():
     try:
-        requests.get('https://dns.google.com/')
+        requests.get("https://dns.google.com/")
         print("Status: Tether Online")
         return True
-    except Exception as e: 
+    except Exception as e:
         print(e)
         return False
+
 
 # REGISTER DEVICE
 if not check_online():
     sys.exit()
 
 try:
-    register_res = requests.get(server_url + register_ep + serial_number).json()
-    if 'token' in register_res:
-        token = register_res['token']
+    register_res = requests.post(
+        server_url + register_ep + serial_number, json=device_info
+    ).json()
+    if "token" in register_res:
+        token = register_res["token"]
         is_registered = True
 except Exception as e:
     print(f"Error registering {serial_number}: {e}")
@@ -59,17 +67,21 @@ except Exception as e:
 while True:
     try:
         res = requests.get(server_url + in_flight_ep).json()
-        in_flight = res['in_flight']
-        
+        in_flight = res["in_flight"]
+
         if not in_flight:
             print("Flight status: Inactive")
             time.sleep(1 / poll_rate)
         else:
-            total_flight_time = res['total_time']
+            total_flight_time = res["total_time"]
             print("Flight status: Active")
             print("Flight time: ", total_flight_time)
-            v_post_res = requests.post(server_url + velocity_ep, json=velocity_data).json()
-            p_post_res = requests.post(server_url + position_ep, json=position_data).json()
+            v_post_res = requests.post(
+                server_url + velocity_ep, json=velocity_data
+            ).json()
+            p_post_res = requests.post(
+                server_url + position_ep, json=position_data
+            ).json()
             print("Updated Velocity: ", v_post_res)
             print("Updated Position: ", p_post_res)
             time.sleep(1 / in_flight_poll_rate)

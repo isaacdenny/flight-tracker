@@ -6,11 +6,15 @@ then
 
     # FIXME: make sure bluetooth tether connected
 
+    # FIXME: remove this line:
+    export SERIAL_NUMBER="21AH250C99EV34"
+
     # Initialize ENV
     echo "SERVER_HOST=192.168.0.10" >> .env
     echo "SERVER_PORT=8000" >> .env
     echo "SERIAL_NUMBER=$SERIAL_NUMBER" >> .env
     echo "PUBLIC_IP=$(curl ifconfig.me)" >> .env
+    echo "DEVICE_NAME=$hostname" >> .env
 
     # Start program
     .venv/bin/python app/main.py
