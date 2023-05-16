@@ -56,11 +56,13 @@ try:
     register_res = requests.post(
         server_url + register_ep + serial_number, json=device_info
     ).json()
-    if "token" in register_res:
-        token = register_res["token"]
-        is_registered = True
+    if 'token' not in register_res:
+        raise Exception('No token')
+    token = register_res['token']
+    is_registered = True
 except Exception as e:
     print(f"Error registering {serial_number}: {e}")
+    sys.exit()
 
 
 # POLL API
