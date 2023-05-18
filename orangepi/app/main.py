@@ -4,8 +4,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-poll_rate = 0.3  # polls per second
-in_flight_poll_rate = 5  # polls per second
+poll_rate = 0.2  # polls per second
+in_flight_poll_rate = 1  # polls per second
 
 serial_number = os.getenv("SERIAL_NUMBER")
 public_ip = os.getenv("PUBLIC_IP")
