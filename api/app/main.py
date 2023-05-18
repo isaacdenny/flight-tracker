@@ -1,12 +1,10 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routers import position, velocity, inflight, register
+from app.routers import register, live
 
 app = FastAPI()
-app.include_router(position.router)
-app.include_router(velocity.router)
-app.include_router(inflight.router)
 app.include_router(register.router)
+app.include_router(live.router)
 
 origins = [
     "http://localhost:3000",
