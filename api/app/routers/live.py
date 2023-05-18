@@ -19,7 +19,7 @@ def get_flight_data(device_code: str, res: Response):
 
 
 @router.post("/{device_code}")
-def start_flight(device_code: int, res: Response):
+def start_flight(device_code: str, res: Response):
     for flight in flights:
         if flight.get_device_code() == device_code:
             res.status_code = status.HTTP_400_BAD_REQUEST
@@ -41,21 +41,21 @@ async def end_flight(uuid: int, res: Response):
     return {"error": f"Flight with id: {uuid} not currently active"}
 
 
-@router.post("/{uuid}/velocity", dependencies=[Depends(verify_token)])
-def set_velocity(uuid: int, new_velocity: Annotated[Velocity, Depends(Velocity)], res: Response):
+@router.post("/{device_code}/velocity", dependencies=[Depends(verify_token)])
+def set_velocity(device_code: str, new_velocity: Annotated[Velocity, Depends(Velocity)], res: Response):
     for flight in flights:
-        if flight.get_uuid() == uuid:
+        if flight.get_device_code() == device_code:
             flight.set_velocity(new_velocity)
             return {"message": "Velocity successfully updated"}
     res.status_code = status.HTTP_400_BAD_REQUEST
-    return {"error": f"No flight matching id: {uuid}"}
+    return {"error": f"No flight for device code: {device_code}"}
 
 
-@router.post("/{uuid}/position", dependencies=[Depends(verify_token)])
-def set_position(uuid: int, new_position: Annotated[Position, Depends(Position)], res: Response):
+@router.post("/{device_code}/position", dependencies=[Depends(verify_token)])
+def set_position(device_code: str, new_position: Annotated[Position, Depends(Position)], res: Response):
     for flight in flights:
-        if flight.get_uuid() == uuid:
+        if flight.get_device_code() == device_code:
             flight.set_position(new_position)
             return {"message": "Position successfully updated"}
     res.status_code = status.HTTP_400_BAD_REQUEST
-    return {"error": f"No flight matching id: {uuid}"}
+    return {"error": f"No flight for device code: {device_code}"}
