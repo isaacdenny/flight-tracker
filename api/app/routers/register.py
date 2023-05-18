@@ -1,34 +1,9 @@
 from fastapi import APIRouter, Response, status, Depends
 from typing import Annotated
+from app.features.classes import FieldDevice
 
 router = APIRouter(prefix="/register", tags=["register"])
 
-known_serials = {
-    '21AH250C99EV34'
-}
-
-class FieldDevice():
-    def __init__(self, serial_number: str, ip_address: str, device_name: str ):
-        self.serial_number = serial_number
-        self.ip_address = ip_address
-        self.device_name = device_name
-
-    def get_sn(self):
-        return self.serial_number
-
-    def get_ip(self):
-        return self.ip_address
-    
-    def get_device_name(self):
-        return self.device_name
-
-    def to_json(self):
-        return {
-            "serial_number": self.serial_number,
-            "ip_address": self.ip_address,
-            "device_name": self.device_name,
-        }
-    
 field_devices = []
 
 @router.get('/{sn}')
