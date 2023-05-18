@@ -1,3 +1,7 @@
-FROM mysql:latest
+FROM postgres:latest
+
+ENV POSTGRES_USER=ADMIN \
+  POSTGRES_PASSWORD=PASSWORD \
+  POSTGRES_DB=flighttracker
 
 COPY ./database.sql /docker-entrypoint-initdb.d/

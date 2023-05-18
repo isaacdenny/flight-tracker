@@ -3,5 +3,5 @@ poetry.lock
 __pycache__/
 
 # ENV
-.env
+*.env
 .venv
