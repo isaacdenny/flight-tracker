@@ -49,6 +49,9 @@ class FieldDevice():
             "device_name": self.device_name,
             "device_code": self.device_code
         }
+    
+    def to_values(self):
+        return f"'{self.serial_number}', '{self.ip_address}', '{self.device_name}', '{self.device_code}'"
 
 class Position():
     def __init__(self, lat: float, lon: float, alt: float):

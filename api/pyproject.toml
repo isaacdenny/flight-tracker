@@ -10,6 +10,7 @@ packages = [{include = "ft_api"}]
 python = "^3.11"
 fastapi = "^0.95.1"
 uvicorn = "^0.22.0"
+psycopg2-binary = "^2.9.6"
 
 
 [build-system]
