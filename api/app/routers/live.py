@@ -18,15 +18,15 @@ def get_flight_data(uuid: int, res: Response):
     return {"error": f"No flight matches id: {uuid}"}
 
 
-@router.post("/{user_id}")
-def start_flight(user_id: int, res: Response):
+@router.post("/{device_code}")
+def start_flight(device_code: int, res: Response):
     for flight in flights:
-        if flight.get_user_id() == user_id:
+        if flight.get_device_code() == device_code:
             res.status_code = status.HTTP_400_BAD_REQUEST
             return {
-                "error": f"User: {user_id} already in flight. End active flight first"
+                "error": f"User with device: {device_code} already in flight id: {flight.get_uuid()}. End active flight first"
             }
-    new_flight = Flight(user_id)
+    new_flight = Flight(device_code)
     flights.append(new_flight)
     return {"uuid": new_flight.get_uuid()}
 

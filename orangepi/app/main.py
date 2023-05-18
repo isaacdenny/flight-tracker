@@ -10,6 +10,7 @@ in_flight_poll_rate = 1  # polls per second
 serial_number = os.getenv("SERIAL_NUMBER")
 public_ip = os.getenv("PUBLIC_IP")
 device_name = os.getenv("DEVICE_NAME")
+device_code = os.getenv("DEVICE_CODE")
 
 server_host = os.getenv("SERVER_HOST")
 server_port = os.getenv("SERVER_PORT")
@@ -18,7 +19,8 @@ server_url = f"http://{server_host}:{server_port}/"
 device_info = {
     "serial_number": serial_number,
     "ip_address": public_ip,
-    "device_name": device_name
+    "device_name": device_name,
+    "device_code": device_code
 }
 
 velocity_ep = "velocity/"

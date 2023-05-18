@@ -1,5 +1,28 @@
 import random, time
 
+class User():
+    def __init__(self, username: str, email: str, password: str, device_code: str):
+        self.uuid = random.randint(0, 9999)
+        self.username = username
+        self.email = email
+        self.password = password
+        self.device_code = device_code
+
+    def get_uuid(self):
+        return self.uuid()
+
+    def get_device_code(self):
+        return self.device_code()
+    
+    def to_json(self):
+        return {
+            'uuid': self.uuid,
+            'username': self.username,
+            'email': self.email,
+            'password': self.password,
+            'device_code': self.device_code
+        }
+
 class Position():
     def __init__(self, lat: float, lon: float, alt: float):
         self.lat = lat
@@ -19,9 +42,9 @@ class Velocity():
         return { 'x': self.x, 'y': self.y, 'z': self.z }
 
 class Flight:
-    def __init__(self, user_id: str):
+    def __init__(self, device_code: str):
         self.uuid = random.randint(0, 9999)
-        self.user_id = user_id
+        self.device_code = device_code
         self.is_active = True
         self.start_time = time.time()
         self.position = Position(0, 0, 0)
@@ -30,8 +53,8 @@ class Flight:
     def get_uuid(self):
         return self.uuid
 
-    def get_user_id(self):
-        return self.user_id
+    def get_device_code(self):
+        return self.device_code
 
     def get_total_time(self):
         return time.time() - self.start_time
@@ -60,7 +83,7 @@ class Flight:
     def to_json(self):
         return {
             "uuid": self.uuid,
-            "user_id": self.user_id,
+            "device_code": self.device_code,
             "is_active": self.is_active,
             "start_time": self.start_time,
             "total_time": self.get_total_time(),

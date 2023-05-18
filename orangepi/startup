@@ -15,6 +15,7 @@ then
     echo "SERIAL_NUMBER=$SERIAL_NUMBER" >> .env
     echo "PUBLIC_IP=$(curl ifconfig.me)" >> .env
     echo "DEVICE_NAME=$hostname" >> .env
+    echo "DEVICE_CODE=AE45980" >> .env
 
     # Start program
     .venv/bin/python app/main.py
