@@ -10,7 +10,7 @@ flights = []
 
 
 @router.get("/{device_code}")
-def get_flight_data(device_code: int, res: Response):
+def get_flight_data(device_code: str, res: Response):
     for flight in flights:
         if flight.get_device_code() == device_code:
             return flight.to_json()

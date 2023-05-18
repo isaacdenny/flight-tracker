@@ -14,7 +14,7 @@ device_code = os.getenv("DEVICE_CODE")
 
 server_host = os.getenv("SERVER_HOST")
 server_port = os.getenv("SERVER_PORT")
-server_url = f"http://{server_host}:{server_port}/"
+server_url = f"http://{server_host}:{server_port}"
 
 device_info = {
     "serial_number": serial_number,
@@ -23,8 +23,8 @@ device_info = {
     "device_code": device_code,
 }
 
-flight_ep = f"live/{device_code}/"
-register_ep = "register/"
+flight_ep = f"/live/{device_code}"
+register_ep = "/register"
 
 is_registered = False
 is_online = True
@@ -77,12 +77,12 @@ while True:
             print("Flight status: Active")
             print("Flight time: ", total_flight_time)
             v_post_res = requests.post(
-                server_url + flight_ep + "velocity/",
+                server_url + flight_ep + "/velocity",
                 params=velocity_data,
                 headers={"x-token": token},
             ).json()
             p_post_res = requests.post(
-                server_url + flight_ep + "position/",
+                server_url + flight_ep + "/position",
                 params=position_data,
                 headers={"x-token": token},
             ).json()
