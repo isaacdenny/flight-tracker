@@ -9,13 +9,13 @@ router = APIRouter(prefix="/live", tags=["live"])
 flights = []
 
 
-@router.get("/{uuid}")
-def get_flight_data(uuid: int, res: Response):
+@router.get("/{device_code}")
+def get_flight_data(device_code: int, res: Response):
     for flight in flights:
-        if flight.get_uuid() == uuid:
+        if flight.get_device_code() == device_code:
             return flight.to_json()
     res.status_code = status.HTTP_400_BAD_REQUEST
-    return {"error": f"No flight matches id: {uuid}"}
+    return {"error": f"No flight matches id: {device_code}"}
 
 
 @router.post("/{device_code}")

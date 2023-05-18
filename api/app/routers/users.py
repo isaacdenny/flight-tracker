@@ -17,6 +17,6 @@ def get_user(uuid: int, res: Response):
     return {"error": f"No user matches id: {uuid}"}
 
 @router.post("/")
-def create_user(new_user: Annotated(User, Depends(User))):
+def create_user(new_user: Annotated[User, Depends(User)]):
     users.append(new_user)
     return { 'uuid': new_user.get_uuid() }

@@ -20,24 +20,22 @@ device_info = {
     "serial_number": serial_number,
     "ip_address": public_ip,
     "device_name": device_name,
-    "device_code": device_code
+    "device_code": device_code,
 }
 
-velocity_ep = "velocity/"
-position_ep = "position/"
-in_flight_ep = "inflight/"
+flight_ep = f"live/{device_code}/"
 register_ep = "register/"
 
 is_registered = False
 is_online = True
-in_flight = False
+is_active = False
 
 velocity_data = {
     "x": 600.400,
     "y": 43.600,
     "z": 23.670,
 }
-position_data = {"lat": 1.600, "lon": 1.200, "alt": 2.520}
+position_data = {"lat": 40.009, "lon": -77.098, "alt": 190}
 
 
 def check_online():
@@ -55,12 +53,10 @@ if not check_online():
     sys.exit()
 
 try:
-    register_res = requests.post(
-        server_url + register_ep, params=device_info
-    ).json()
-    if 'token' not in register_res:
-        raise Exception('No token')
-    token = register_res['token']
+    register_res = requests.post(server_url + register_ep, params=device_info).json()
+    if "token" not in register_res:
+        raise Exception("No token")
+    token = register_res["token"]
     is_registered = True
 except Exception as e:
     print(f"Error registering {serial_number}: {e}")
@@ -70,10 +66,10 @@ except Exception as e:
 # POLL API
 while True:
     try:
-        res = requests.get(server_url + in_flight_ep, headers={"x-token": token}).json()
-        in_flight = res["in_flight"]
+        res = requests.get(server_url + flight_ep, headers={"x-token": token}).json()
+        is_active = res["is_active"]
 
-        if not in_flight:
+        if not is_active:
             print("Flight status: Inactive")
             time.sleep(1 / poll_rate)
         else:
@@ -81,10 +77,14 @@ while True:
             print("Flight status: Active")
             print("Flight time: ", total_flight_time)
             v_post_res = requests.post(
-                server_url + velocity_ep, params=velocity_data, headers={"x-token": token}
+                server_url + flight_ep + "velocity/",
+                params=velocity_data,
+                headers={"x-token": token},
             ).json()
             p_post_res = requests.post(
-                server_url + position_ep, params=position_data, headers={"x-token": token}
+                server_url + flight_ep + "position/",
+                params=position_data,
+                headers={"x-token": token},
             ).json()
             print("Updated Velocity: ", v_post_res)
             print("Updated Position: ", p_post_res)
