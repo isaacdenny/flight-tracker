@@ -1,33 +1,13 @@
 import React from "react";
-import {
-  ComposableMap,
-  Geographies,
-  Geography,
-  Marker
-} from "react-simple-maps";
-
-const geoUrl =
-  "https://raw.githubusercontent.com/deldersveld/topojson/master/continents/north-america.json";
+import { Map, Marker } from 'pigeon-maps'
+import { stamenToner } from 'pigeon-maps/providers'
 
 const MapChart = (params) => {
+  let position = [params.data['lat'], params.data['lon']]
   return (
-    <ComposableMap projection="geoAlbers">
-      <Geographies geography={geoUrl}>
-        {({ geographies }) =>
-          geographies.map((geo) => (
-            <Geography
-              key={geo.rsmKey}
-              geography={geo}
-              fill="#DDD"
-              stroke="#FFF"
-            />
-          ))
-        }
-      </Geographies>
-      <Marker coordinates={[params.data['lon'], params.data['lat']]}>
-        <circle r={8} fill="#F53" />
-      </Marker>
-    </ComposableMap>
+    <Map provider={stamenToner} dprs={[1, 2]} height={300} defaultCenter={position} defaultZoom={12}>
+      <Marker width={50} anchor={position} />
+    </Map>
   );
 };
 
