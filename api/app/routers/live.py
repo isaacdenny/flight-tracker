@@ -15,30 +15,32 @@ def get_flight_data(device_code: str, res: Response):
         if flight.get_device_code() == device_code:
             return flight.to_json()
     res.status_code = status.HTTP_400_BAD_REQUEST
-    return {"error": f"No flight matches id: {device_code}"}
+    return {"error": f"No flight matches device_code: {device_code}"}
 
 
 @router.post("/{device_code}")
 def start_flight(device_code: str, res: Response):
+    # check to see if device is registered
     for flight in flights:
         if flight.get_device_code() == device_code:
             res.status_code = status.HTTP_400_BAD_REQUEST
             return {
-                "error": f"User with device: {device_code} already in flight id: {flight.get_uuid()}. End active flight first"
+                "error": f"User with device: {device_code} already in flight. End active flight first"
             }
     new_flight = Flight(device_code)
     flights.append(new_flight)
-    return {"uuid": new_flight.get_uuid()}
+    return {"message": "Flight successfully started"}
 
 
-@router.post("/{uuid}/end")
-async def end_flight(uuid: int, res: Response):
+@router.post("/{device_code}/end")
+async def end_flight(device_code: str, res: Response):
     for flight in flights:
-        if flight.get_uuid() == uuid and flight.get_is_active():
-            flight.set_is_active(False)
+        if flight.get_device_code() == device_code:
+            flights.remove(flight)
+            flight.end()
             return {"message": f"Flight successfully ended"}
     res.status_code = status.HTTP_400_BAD_REQUEST
-    return {"error": f"Flight with id: {uuid} not currently active"}
+    return {"error": f"Flight with device_code: {device_code} not currently active"}
 
 
 @router.post("/{device_code}/velocity", dependencies=[Depends(verify_token)])

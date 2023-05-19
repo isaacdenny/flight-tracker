@@ -11,8 +11,8 @@ CREATE TABLE IF NOT EXISTS users (
 CREATE TABLE IF NOT EXISTS flight_logs (
   uuid SERIAL PRIMARY KEY,
   device_code VARCHAR(7) NOT NULL,
-  start_time int NOT NULL,
-  total_time int NOT NULL,
+  start_time decimal NOT NULL,
+  total_time decimal NOT NULL,
   createdAt TIMESTAMP DEFAULT now(),
   updatedAt TIMESTAMP DEFAULT now()
 );
