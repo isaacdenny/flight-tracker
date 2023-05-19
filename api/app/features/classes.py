@@ -9,10 +9,13 @@ class User():
         self.device_code = device_code
 
     def get_uuid(self):
-        return self.uuid()
+        return self.uuid
+    
+    def get_email(self):
+        return self.email
 
     def get_device_code(self):
-        return self.device_code()
+        return self.device_code
     
     def to_json(self):
         return {
@@ -22,6 +25,9 @@ class User():
             'password': self.password,
             'device_code': self.device_code
         }
+    
+    def to_values(self):
+        return f"'{self.username}', '{self.email}', '{self.password}', '{self.device_code}'"
     
 class FieldDevice():
     def __init__(self, serial_number: str, ip_address: str, device_name: str, device_code: str ):
