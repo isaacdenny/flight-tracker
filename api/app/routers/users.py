@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, status, Response
 from typing import Annotated
-from app.features.classes import User
+from api.app.features.schema.User import User
 from app.database import connection
 from psycopg2.errors import UniqueViolation
 

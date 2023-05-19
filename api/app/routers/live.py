@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, status, Response
 from app.features.security import verify_token
 from typing import Annotated
-from app.features.classes import Position, Flight, Velocity
+from app.features.schema import Velocity, Flight, Position
 
 router = APIRouter(prefix="/live", tags=["live"])
 
