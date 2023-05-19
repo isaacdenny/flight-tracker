@@ -1,6 +1,3 @@
-import random
-
-
 class User:
     def __init__(self, username: str, email: str, password: str, device_code: str):
         self.username = username

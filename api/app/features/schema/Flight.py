@@ -1,5 +1,6 @@
 from app.features import crud
-from app.features.schema import Position, Velocity
+from app.features.schema.Position import Position
+from app.features.schema.Velocity import Velocity
 
 
 import time

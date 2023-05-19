@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Response, status, Depends
 from typing import Annotated
-from api.app.features.schema.FieldDevice import FieldDevice
+from app.features.schema.FieldDevice import FieldDevice
 from app.database import connection
 from psycopg2.errors import UniqueViolation
 
